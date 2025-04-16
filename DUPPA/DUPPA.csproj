@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\images\score1.png" />
+      <None Include="wwwroot\images\score2.png" />
+      <None Include="wwwroot\images\score3.png" />
+      <None Include="wwwroot\images\score4.png" />
+      <None Include="wwwroot\images\score5.png" />
+    </ItemGroup>
+
+</Project>

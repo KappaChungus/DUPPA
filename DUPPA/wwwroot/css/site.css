@@ -29,3 +29,111 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/*callendar in index.html*/
+ .calendar {
+   display: grid;
+   grid-template-columns: repeat(7, 1fr);
+   border: 2px solid #000;
+   width: 100%;
+ }
+
+.calendar-day {
+  border: 1px solid #ccc;
+  height: 120px;
+  padding: 5px;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+.calendar-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  font-size: 0.75rem;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.calendar-top strong {
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.note-icon-btn {
+  background: transparent;
+  border: none;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  color: #6c757d;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: inherit;
+  margin-left: 4px;
+}
+
+.calendar-entry {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+}
+
+.calendar-entry img {
+  width: 70%;
+  height: auto;
+  max-height: 40px;
+  object-fit: contain;
+}
+
+.calendar-entry .fw-bold {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  font-size: clamp(0.6rem, 2.5vw, 0.9rem);
+  text-align: center;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .calendar-day {
+    height: 90px;
+  }
+}
+
+/*admin panel*/
+.image-option {
+  border: 3px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+.image-option.selected {
+  border-color: #007bff;
+}
+
+.image-grid {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}

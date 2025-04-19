@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "bdJLOXGtsRu2rS2eKIa7odh5/wlKHErKPOXYZJRu0q8=",
+  "Hash": "I6m2Kp6RvzochfIbTZD/z2gO9uJy3Os1ccVxKvTtEyQ=",
   "Source": "DUPPA",
   "BasePath": "_content/DUPPA",
   "Mode": "Default",
@@ -815,12 +815,12 @@
       "OriginalItemSpec": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.map"
     },
     {
-      "Identity": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-b9sayid5wm.gz",
+      "Identity": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-1dn2knjb93.gz",
       "SourceId": "DUPPA",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/DUPPA",
-      "RelativePath": "css/site#[.{fingerprint=b9sayid5wm}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=1dn2knjb93}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -829,8 +829,8 @@
       "RelatedAsset": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\wwwroot\\css\\site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "0suozzrugb",
-      "Integrity": "0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=",
+      "Fingerprint": "kk0zrqtud0",
+      "Integrity": "pOBemFRBuRY+CUa8pZnp0f+YZVYmTP17qdBfxLILtuQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\wwwroot\\css\\site.css"
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "b9sayid5wm",
-      "Integrity": "j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=",
+      "Fingerprint": "1dn2knjb93",
+      "Integrity": "O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -2833,13 +2833,13 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/site.b9sayid5wm.css",
-      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-b9sayid5wm.gz",
+      "Route": "css/site.1dn2knjb93.css",
+      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-1dn2knjb93.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.003134796238"
+          "Quality": "0.001119820829"
         }
       ],
       "ResponseHeaders": [
@@ -2849,15 +2849,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "318"
+          "Value": "892"
         },
         {
           "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
+          "Value": "\"pOBemFRBuRY+CUa8pZnp0f+YZVYmTP17qdBfxLILtuQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 14 Apr 2025 15:36:34 GMT"
+          "Value": "Sat, 19 Apr 2025 19:19:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2877,13 +2877,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "W/\"O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "1dn2knjb93"
         },
         {
           "Name": "label",
@@ -2891,12 +2891,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk="
         }
       ]
     },
     {
-      "Route": "css/site.b9sayid5wm.css",
+      "Route": "css/site.1dn2knjb93.css",
       "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2906,7 +2906,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "667"
+          "Value": "2495"
         },
         {
           "Name": "Content-Type",
@@ -2914,11 +2914,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "\"O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 14 Apr 2025 15:36:34 GMT"
+          "Value": "Sat, 19 Apr 2025 19:19:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2928,7 +2928,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "1dn2knjb93"
         },
         {
           "Name": "label",
@@ -2936,13 +2936,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk="
         }
       ]
     },
     {
-      "Route": "css/site.b9sayid5wm.css.gz",
-      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-b9sayid5wm.gz",
+      "Route": "css/site.1dn2knjb93.css.gz",
+      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-1dn2knjb93.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2951,7 +2951,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "318"
+          "Value": "892"
         },
         {
           "Name": "Content-Type",
@@ -2959,11 +2959,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
+          "Value": "\"pOBemFRBuRY+CUa8pZnp0f+YZVYmTP17qdBfxLILtuQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 14 Apr 2025 15:36:34 GMT"
+          "Value": "Sat, 19 Apr 2025 19:19:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2981,7 +2981,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "b9sayid5wm"
+          "Value": "1dn2knjb93"
         },
         {
           "Name": "label",
@@ -2989,18 +2989,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y="
+          "Value": "sha256-pOBemFRBuRY+CUa8pZnp0f+YZVYmTP17qdBfxLILtuQ="
         }
       ]
     },
     {
       "Route": "css/site.css",
-      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-b9sayid5wm.gz",
+      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-1dn2knjb93.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.003134796238"
+          "Quality": "0.001119820829"
         }
       ],
       "ResponseHeaders": [
@@ -3010,15 +3010,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "318"
+          "Value": "892"
         },
         {
           "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
+          "Value": "\"pOBemFRBuRY+CUa8pZnp0f+YZVYmTP17qdBfxLILtuQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 14 Apr 2025 15:36:34 GMT"
+          "Value": "Sat, 19 Apr 2025 19:19:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3038,13 +3038,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "W/\"O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk="
         }
       ]
     },
@@ -3059,7 +3059,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "667"
+          "Value": "2495"
         },
         {
           "Name": "Content-Type",
@@ -3067,11 +3067,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg=\""
+          "Value": "\"O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 14 Apr 2025 15:36:34 GMT"
+          "Value": "Sat, 19 Apr 2025 19:19:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3081,13 +3081,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-j6fhJSuuyLpOSLuPJU0TsDV0iNjor5S3rDnvxJrt4bg="
+          "Value": "sha256-O90YYbf8y8PpwWs2ZHZADrQZrgGwEGHtUXR5HgTXhbk="
         }
       ]
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-b9sayid5wm.gz",
+      "AssetFile": "C:\\Users\\riftwalker\\Desktop\\DUPPA\\DUPPA\\obj\\Debug\\net9.0\\compressed\\maejiy2coj-1dn2knjb93.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3096,7 +3096,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "318"
+          "Value": "892"
         },
         {
           "Name": "Content-Type",
@@ -3104,11 +3104,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y=\""
+          "Value": "\"pOBemFRBuRY+CUa8pZnp0f+YZVYmTP17qdBfxLILtuQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 14 Apr 2025 15:36:34 GMT"
+          "Value": "Sat, 19 Apr 2025 19:19:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3126,7 +3126,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-0FC1RbVkLkwKhJ1oi+r2Hw4Tm9av6DyJeo95YVvfA3Y="
+          "Value": "sha256-pOBemFRBuRY+CUa8pZnp0f+YZVYmTP17qdBfxLILtuQ="
         }
       ]
     },

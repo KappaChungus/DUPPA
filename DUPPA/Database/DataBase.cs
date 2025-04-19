@@ -30,7 +30,7 @@
         
         public void SeedDefaultUsers()
         {
-            var names = new[] { "Jan", "Jeremiasz", "Jerzy", "Ryszard" };
+            var names = new[] { "Jan", "Jeremi", "Jerzy", "Ryszard" };
              _defaultUserForDay = new Dictionary<string,string>();
 
             foreach (var name in names)
@@ -39,10 +39,10 @@
             }
             _defaultUserForDay.Add("Sunday", "Jerzy");
             _defaultUserForDay.Add("Monday", "Jan");
-            _defaultUserForDay.Add("Tuesday", "Jeremiasz");
+            _defaultUserForDay.Add("Tuesday", "Jeremi");
             _defaultUserForDay.Add("Wednesday", "Ryszard");
             _defaultUserForDay.Add("Thursday", "Jan");
-            _defaultUserForDay.Add("Friday", "Jeremiasz");
+            _defaultUserForDay.Add("Friday", "Jeremi");
             _defaultUserForDay.Add("Saturday", "Ryszard");
         }
 

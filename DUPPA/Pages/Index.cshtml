@@ -47,62 +47,8 @@
         }
         </tbody>
     </table>
-
-    <style>
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            border: 2px solid #000;
-        }
-
-        .calendar-day {
-            border: 1px solid #ccc;
-            height: 120px;
-            padding: 5px;
-            position: relative; /* This allows the note button to be positioned relative to the cell */
-        }
-
-        /* Position the note button at the top-right corner of the calendar cell */
-        .note-icon-btn {
-            position: absolute;
-            right: 5px; /* Slight margin from the right */
-            background: transparent;
-            border: none;
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 2px 4px;
-            color: #6c757d;
-            z-index: 2 /* Ensure the button is on top */
-        }
-
-
-        .calendar-day strong {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            font-size: 0.9rem;
-        }
-
-        .calendar-entry {
-            position: relative;
-            z-index: 1;
-            padding-top: 10px; /* Move content down */
-        }
-
-        strong {
-            display: block;
-            margin-bottom: 5px; /* Add space below the date */
-        }
-
-        .calendar-header {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-    </style>
-
+    
+    
     <h2 class="text-center mb-4">@Model.SelectedMonth</h2>
 
     <div class="calendar-header">
@@ -135,7 +81,17 @@
                     var date = new DateTime(firstDay.Year, firstDay.Month, currentDay);
                     var hasEntry = Model.CalendarScores.TryGetValue(date, out var entry);
                     <div class="calendar-day">
-                        <strong>@currentDay</strong>
+                        <!-- Flex container for day number and note button -->
+                        <div class="calendar-top">
+                            <strong>@currentDay</strong>
+                            @if (hasEntry && !string.IsNullOrEmpty(entry.Note))
+                            {
+                                <!-- Display the 📝 emoji icon as a button -->
+                                <button class="note-icon-btn" data-note="@entry.Note" data-bs-toggle="modal" data-bs-target="#noteModal">
+                                    📝
+                                </button>
+                            }
+                        </div>
                         @if (hasEntry)
                         {
                             <div class="calendar-entry">
@@ -144,13 +100,6 @@
                                     <img src="@($"/images/score{entry.Score}.png")"
                                          alt="@entry.Score pkt"
                                          width="40" height="40"/>
-                                    @if (!string.IsNullOrEmpty(entry.Note))
-                                    {
-                                        <!-- Display the 📝 emoji icon as a button -->
-                                        <button class="note-icon-btn" data-note="@entry.Note" data-bs-toggle="modal" data-bs-target="#noteModal">
-                                            📝
-                                        </button>
-                                    }
                                 </div>
                             </div>
                         }

@@ -21,9 +21,6 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    @{
-                        Console.WriteLine(HttpContextAccessor.HttpContext.Session.GetString("IsAdmin"));
-                    }
                     @if (HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "true")
                     {
                         <li class="nav-item">

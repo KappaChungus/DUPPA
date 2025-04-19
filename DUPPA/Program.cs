@@ -23,4 +23,6 @@ app.MapStaticAssets();
 app.MapRazorPages()
     .WithStaticAssets();
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Add($"http://*:{port}");
 app.Run();

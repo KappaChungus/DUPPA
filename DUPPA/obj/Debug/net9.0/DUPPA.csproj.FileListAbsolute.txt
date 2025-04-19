@@ -122,3 +122,4 @@ C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\runtimes\win-x64\native
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.csproj.AssemblyReference.cache
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.csproj.Up2Date
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.sourcelink.json

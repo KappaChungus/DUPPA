@@ -41,8 +41,8 @@
             _defaultUserForDay.Add("Tuesday", "Jeremiasz");
             _defaultUserForDay.Add("Wednesday", "Ryszard");
             _defaultUserForDay.Add("Thursday", "Jan");
-            _defaultUserForDay.Add("Friday", "Ryszard");
-            _defaultUserForDay.Add("Saturday", "Jeremiasz");
+            _defaultUserForDay.Add("Friday", "Jeremiasz");
+            _defaultUserForDay.Add("Saturday", "Ryszard");
         }
 
         
@@ -55,8 +55,6 @@
             command.CommandText = "INSERT OR IGNORE INTO users (name) VALUES ($name);";
             command.Parameters.AddWithValue("$name", name);
             command.ExecuteNonQuery();
-
-            Console.WriteLine($"User '{name}' added.");
         }
 
 
@@ -121,7 +119,6 @@
 
             if (userId == null)
             {
-                Console.WriteLine($"User '{userName}' not found.");
                 return;
             }
 
@@ -135,15 +132,8 @@
             insertCommand.Parameters.AddWithValue("$score", score);
             insertCommand.Parameters.AddWithValue("$note", note ?? (object)DBNull.Value);
 
-            try
-            {
-                insertCommand.ExecuteNonQuery();
-                Console.WriteLine($"Score {score} added for {userName} on {date.ToShortDateString()} with note '{note}'.");
-            }
-            catch (SqliteException ex) when (ex.SqliteErrorCode == 19)
-            {
-                Console.WriteLine($"A score already exists for {date.ToShortDateString()}.");
-            }
+            insertCommand.ExecuteNonQuery();
+            
         }
 
 

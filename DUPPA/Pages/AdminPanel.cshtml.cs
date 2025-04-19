@@ -13,7 +13,7 @@ namespace DUPPA.Pages
         public int SelectedImageId { get; set; }
 
         [BindProperty]
-        public DateTime SelectedDate { get; set; } = DateTime.Today;
+        public DateTime SelectedDate { get; set; } = DateTime.Today.AddDays(-1);
         
         [BindProperty]
         public string OptionalNote { get; set; }

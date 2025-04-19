@@ -8,7 +8,8 @@
     public class DataBase
     {
         private static DataBase? _instance;
-        private const string ConnectionString = "Data Source=./database/duppa.db";
+        private static string dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Database", "duppa.db");
+        private string ConnectionString = $"Data Source={dbPath}";
         public Dictionary<string, string> _defaultUserForDay;
 
         private DataBase()

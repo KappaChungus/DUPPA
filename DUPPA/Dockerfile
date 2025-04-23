@@ -17,9 +17,6 @@ WORKDIR /app
 # Copy published output
 COPY --from=build /app/out .
 
-# !!! ALSO copy the database file manually !!!
-COPY ./Database/duppa.db ./Database/duppa.db
-
 # Set the environment port (important for Render)
 ENV ASPNETCORE_URLS=http://+:$PORT
 

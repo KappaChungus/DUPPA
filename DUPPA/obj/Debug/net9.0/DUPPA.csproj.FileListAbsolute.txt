@@ -123,3 +123,4 @@ C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.csproj.AssemblyRe
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.csproj.Up2Date
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.sourcelink.json
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\compressed\maejiy2coj-1dn2knjb93.gz
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\Npgsql.dll

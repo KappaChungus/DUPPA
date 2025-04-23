@@ -1,20 +1,20 @@
 ﻿namespace DUPPA.Database
 {
     using DUPPA.Models;
-    using Microsoft.Data.Sqlite;
+    using Npgsql;
     using System;
     using System.Collections.Generic;
 
     public class DataBase
     {
         private static DataBase? _instance;
-        private static string dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Database", "duppa.db");
-        private string ConnectionString = $"Data Source={dbPath}";
+
+        private string ConnectionString = "Host=yamabiko.proxy.rlwy.net;Port=29336;Username=postgres;Password=rkqbGBDrZPduWErOfBoVjbLbGIaVYcjX;Database=railway;SSL Mode=Require;Trust Server Certificate=true";
+
         public Dictionary<string, string> _defaultUserForDay;
 
         private DataBase()
         {
-            InitializeDatabase();
             SeedDefaultUsers();
         }
 
@@ -27,16 +27,17 @@
                 return _instance;
             }
         }
-        
+
         public void SeedDefaultUsers()
         {
             var names = new[] { "Jan", "Jeremi", "Jerzy", "Ryszard" };
-             _defaultUserForDay = new Dictionary<string,string>();
+            _defaultUserForDay = new Dictionary<string, string>();
 
             foreach (var name in names)
             {
                 AddUser(name);
             }
+
             _defaultUserForDay.Add("Sunday", "Jerzy");
             _defaultUserForDay.Add("Monday", "Jan");
             _defaultUserForDay.Add("Tuesday", "Jeremi");
@@ -46,49 +47,21 @@
             _defaultUserForDay.Add("Saturday", "Ryszard");
         }
 
-        
         public void AddUser(string name)
         {
-            using var connection = new SqliteConnection(ConnectionString);
+            using var connection = new NpgsqlConnection(ConnectionString);
             connection.Open();
 
             var command = connection.CreateCommand();
-            command.CommandText = "INSERT OR IGNORE INTO users (name) VALUES ($name);";
-            command.Parameters.AddWithValue("$name", name);
+            command.CommandText = "INSERT INTO users (name) VALUES (@name) ON CONFLICT (name) DO NOTHING;";
+            command.Parameters.AddWithValue("@name", name);
             command.ExecuteNonQuery();
         }
 
-
-        private void InitializeDatabase()
-        {
-            using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL UNIQUE
-                );
-
-                CREATE TABLE IF NOT EXISTS scores (
-                    date TEXT PRIMARY KEY,
-                    user_id INTEGER NOT NULL,
-                    score INTEGER NOT NULL,
-                    note TEXT,
-                    FOREIGN KEY (user_id) REFERENCES users(id)
-                );
-            ";
-
-            command.ExecuteNonQuery();
-        }
-
-
-        // Get all users with their scores
         public List<User> GetUsers()
         {
             var users = new List<User>();
-            using var connection = new SqliteConnection(ConnectionString);
+            using var connection = new NpgsqlConnection(ConnectionString);
             connection.Open();
 
             var getUsersCommand = connection.CreateCommand();
@@ -100,88 +73,83 @@
                 var id = reader.GetInt32(0);
                 var name = reader.GetString(1);
                 var scores = GetScoresByUserId(id);
-
                 users.Add(new User(id, name, scores));
             }
-
             return users;
         }
 
-        // Add a new score for a user
         public void AddScoreForDay(string userName, int score, DateTime date, string? note)
         {
-            using var connection = new SqliteConnection(ConnectionString);
+            using var connection = new NpgsqlConnection(ConnectionString);
             connection.Open();
 
             var getUserIdCommand = connection.CreateCommand();
-            getUserIdCommand.CommandText = "SELECT id FROM users WHERE name = $name;";
-            getUserIdCommand.Parameters.AddWithValue("$name", userName);
+            getUserIdCommand.CommandText = "SELECT id FROM users WHERE name = @name;";
+            getUserIdCommand.Parameters.AddWithValue("@name", userName);
             var userId = getUserIdCommand.ExecuteScalar();
 
             if (userId == null)
-            {
                 return;
-            }
 
             var insertCommand = connection.CreateCommand();
             insertCommand.CommandText = @"
-        INSERT OR REPLACE INTO scores (date, user_id, score, note)
-        VALUES (date($date), $user_id, $score, $note);";
+                INSERT INTO scores (date, user_id, score, note)
+                VALUES (@date, @user_id, @score, @note)
+                ON CONFLICT (date) DO UPDATE
+                SET user_id = EXCLUDED.user_id,
+                    score = EXCLUDED.score,
+                    note = EXCLUDED.note;
+            ";
 
-            insertCommand.Parameters.AddWithValue("$date", date.ToString("yyyy-MM-dd"));
-            insertCommand.Parameters.AddWithValue("$user_id", (long)userId);
-            insertCommand.Parameters.AddWithValue("$score", score);
-            insertCommand.Parameters.AddWithValue("$note", note ?? (object)DBNull.Value);
+            insertCommand.Parameters.AddWithValue("@date", date);
+            insertCommand.Parameters.AddWithValue("@user_id", (int)userId);
+            insertCommand.Parameters.AddWithValue("@score", score);
+            insertCommand.Parameters.AddWithValue("@note", note ?? (object)DBNull.Value);
 
             insertCommand.ExecuteNonQuery();
-            
         }
 
-
-
-        // Get scores by user ID (private helper)
         private List<Score> GetScoresByUserId(int userId)
         {
             var scores = new List<Score>();
 
-            using var connection = new SqliteConnection(ConnectionString);
+            using var connection = new NpgsqlConnection(ConnectionString);
             connection.Open();
 
             var getScoresCommand = connection.CreateCommand();
-            getScoresCommand.CommandText = "SELECT score, date, note FROM scores WHERE user_id = $user_id;";
-            getScoresCommand.Parameters.AddWithValue("$user_id", userId);
+            getScoresCommand.CommandText = "SELECT score, date, note FROM scores WHERE user_id = @user_id;";
+            getScoresCommand.Parameters.AddWithValue("@user_id", userId);
 
             using var reader = getScoresCommand.ExecuteReader();
             while (reader.Read())
             {
                 var value = reader.GetInt32(0);
-                var dateStr = reader.GetString(1);
-                var date = DateTime.Parse(dateStr);
+                var date = reader.GetDateTime(1);
                 string? note = reader.IsDBNull(2) ? null : reader.GetString(2);
                 scores.Add(new Score(value, date, note));
             }
 
             return scores;
         }
-        
+
         public List<(DateTime CreatedAt, string UserName, int Value, string? Note)> GetAllScores()
         {
             var scores = new List<(DateTime, string, int, string?)>();
 
-            using var connection = new SqliteConnection(ConnectionString);
+            using var connection = new NpgsqlConnection(ConnectionString);
             connection.Open();
 
             var command = connection.CreateCommand();
             command.CommandText = @"
-        SELECT s.date, u.name, s.score, s.note
-        FROM scores s
-        JOIN users u ON s.user_id = u.id;
-    ";
+                SELECT s.date, u.name, s.score, s.note
+                FROM scores s
+                JOIN users u ON s.user_id = u.id;
+            ";
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                var date = DateTime.Parse(reader.GetString(0));
+                var date = reader.GetDateTime(0);
                 var name = reader.GetString(1);
                 var score = reader.GetInt32(2);
                 var note = reader.IsDBNull(3) ? null : reader.GetString(3);
@@ -191,6 +159,5 @@
 
             return scores;
         }
-
     }
 }

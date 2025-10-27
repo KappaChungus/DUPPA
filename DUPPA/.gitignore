@@ -37,3 +37,5 @@ DUPPA-clean/
 *.json
 DUPPA/bin/
 DUPPA/obj/
+DUPPA/enviromentalVariables.json
+DUPPA/client_secret_*.json

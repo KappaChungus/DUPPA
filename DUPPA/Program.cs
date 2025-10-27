@@ -1,11 +1,15 @@
 using System.Globalization;
 using DUPPA;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ----------------------
+// Localization
+// ----------------------
 var supportedCultures = new[] { new CultureInfo("pl-PL") };
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
@@ -13,49 +17,80 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 });
+
+// ----------------------
+// Authentication
+// ----------------------
 builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-    })
-    .AddCookie()
-    .AddGoogle(options =>
-    {
-        options.ClientId = builder.Configuration["Google:CLIENT_ID"];
-        options.ClientSecret = builder.Configuration["Google:CLIENT_SECRET"];
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Google:CLIENT_ID"];
+    options.ClientSecret = builder.Configuration["Google:CLIENT_SECRET"];
+    options.Scope.Add("profile");
+    options.Scope.Add("email");
+});
 
-        // Określa, jakie dane chcesz pobrać
-        options.Scope.Add("profile");
-        options.Scope.Add("email");
-    });
-
+// ----------------------
+// Authorization & services
+// ----------------------
 builder.Services.AddAuthorization();
-
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
 AppConfiguration.Configuration = builder.Configuration;
 
+// ----------------------
+// Build app
+// ----------------------
 var app = builder.Build();
 
+// ----------------------
+// Environment-specific config
+// ----------------------
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
+
     var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
     app.Urls.Add($"http://*:{port}");
 }
+
+// ----------------------
+// Middleware pipeline
+// ----------------------
+
+// Forwarded headers (for Render proxy)
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+// Localization
 app.UseRequestLocalization();
+
+// HTTPS redirect
 app.UseHttpsRedirection();
 
+// Routing
 app.UseRouting();
-app.UseAuthentication();
 
-app.UseAuthorization();
+// Session must come BEFORE authentication
 app.UseSession();
 
+// Authentication & Authorization
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Static assets & Razor Pages
 app.MapStaticAssets();
-app.MapRazorPages()
-    .WithStaticAssets();
+app.MapRazorPages().WithStaticAssets();
+
+// Run the app
 app.Run();

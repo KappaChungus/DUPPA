@@ -2,7 +2,7 @@ using System.Globalization;
 using DUPPA;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.HttpOverrides; // <-- Required for ForwardedHeaders
 using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +22,25 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // force secure cookies
 });
+
+// ----------------------
+// ▼▼▼ ADDED SECTION ▼▼▼
+// ----------------------
+// Configure Forwarded Headers to trust the Render proxy
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = 
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    
+    // These lines are CRITICAL to trust Render's proxy
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+// ----------------------
+// ▲▲▲ END OF SECTION ▲▲▲
+// ----------------------
+
+
 // ----------------------
 // Authentication
 // ----------------------
@@ -75,19 +94,16 @@ if (!app.Environment.IsDevelopment())
 // Middleware pipeline
 // ----------------------
 
-// Forwarded headers (for Render proxy)
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-    KnownNetworks = { }, // empty means trust all networks (okay for Render)
-    KnownProxies = { }   // empty means trust all proxies (okay for Render)
-});
+// ▼▼▼ MODIFIED LINE ▼▼▼
+// This now uses the options configured in builder.Services
+app.UseForwardedHeaders();
+// ▲▲▲ END OF MODIFICATION ▲▲▲
 
 
 // Localization
 app.UseRequestLocalization();
 
-// HTTPS redirect
+// HTTPS redirect (Can be left on, but Render also handles this)
 app.UseHttpsRedirection();
 
 // Routing

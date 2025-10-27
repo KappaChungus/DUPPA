@@ -41,7 +41,6 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    builder.Configuration.AddJsonFile("enviromentalVariables.json", optional: false, reloadOnChange: true);
     app.UseExceptionHandler("/Error");
     app.UseHsts();
     var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";

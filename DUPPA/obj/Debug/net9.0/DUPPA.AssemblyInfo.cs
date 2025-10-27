@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DUPPA")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87a971c80e7de47a577c940b175c8a20f6e5fb1f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fccc0341eb52088144e8cc834a5f2d9fff5497c")]
 [assembly: System.Reflection.AssemblyProductAttribute("DUPPA")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DUPPA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

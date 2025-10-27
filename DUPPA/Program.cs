@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile("enviromentalVariables.json", optional: false, reloadOnChange: true);
 
 var supportedCultures = new[] { new CultureInfo("pl-PL") };
 builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -42,6 +41,7 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
+    builder.Configuration.AddJsonFile("enviromentalVariables.json", optional: false, reloadOnChange: true);
     app.UseExceptionHandler("/Error");
     app.UseHsts();
     var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";

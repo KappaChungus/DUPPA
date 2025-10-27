@@ -16,13 +16,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\DUPPA.15ugceoe37.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"15ugceoe37"},{"Name":"integrity","Value":"sha256-lYCUssC9vltxBzTNl8S0raxxrolgZ9aexrTGDHosAg8="},{"Name":"label","Value":"_content/DUPPA/DUPPA.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1123"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022lYCUssC9vltxBzTNl8S0raxxrolgZ9aexrTGDHosAg8=\u0022"},{"Name":"Last-Modified","Value":"Mon, 14 Apr 2025 15:37:16 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1123"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022lYCUssC9vltxBzTNl8S0raxxrolgZ9aexrTGDHosAg8=\u0022"},{"Name":"Last-Modified","Value":"Sun, 26 Oct 2025 23:10:46 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DUPPA/DUPPA.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\DUPPA.15ugceoe37.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-lYCUssC9vltxBzTNl8S0raxxrolgZ9aexrTGDHosAg8="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1123"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022lYCUssC9vltxBzTNl8S0raxxrolgZ9aexrTGDHosAg8=\u0022"},{"Name":"Last-Modified","Value":"Mon, 14 Apr 2025 15:37:16 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1123"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022lYCUssC9vltxBzTNl8S0raxxrolgZ9aexrTGDHosAg8=\u0022"},{"Name":"Last-Modified","Value":"Sun, 26 Oct 2025 23:10:46 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DUPPA/favicon.61n19gt1b8.ico">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.ico'))</AssetFile>

@@ -11,18 +11,15 @@
 <body>
 <div class="container mt-5">
     <form method="post">
-        <!-- Date picker -->
         <div class="mb-3">
             <label for="selectedDate" class="form-label">Data:</label>
             <input type="date"
+                   class="form-control"
                    id="selectedDate"
                    name="SelectedDate"
-                   class="form-control"
-                   value="@Model.SelectedDate.ToString("yyyy-MM-dd")"
-                   onchange="this.form.submit()" /> <!-- Formularz wysyła datę przy zmianie -->
+                   value="@Model.SelectedDate.ToString("yyyy-MM-dd")" />
         </div>
 
-        <!-- Dyżurny -->
         <div class="mb-3">
             <label for="selectedOption" class="form-label">Dyżurny:</label>
             <select class="form-select" id="selectedOption" name="SelectedOption">
@@ -35,7 +32,6 @@
             </select>
         </div>
 
-        <!-- optional textfield -->
         <div class="mb-3">
             <label for="optionalNote" class="form-label">Notatka (opcjonalnie):</label>
             <input type="text"
@@ -46,7 +42,6 @@
                    value="@Model.OptionalNote" />
         </div>
 
-        <!-- Image selection -->
         <div class="mb-3">
             <input type="hidden" id="selectedImageId" name="SelectedImageId" value="@Model.SelectedImageId"/>
 
@@ -62,7 +57,6 @@
             </div>
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

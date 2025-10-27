@@ -4,14 +4,12 @@
 
 <div class="container mt-5">
 
-    <!-- Header Section -->
     <header class="text-center py-3 mb-4">
         <h1>Dyżury Ustalane Przez Praktyczny Algorytm</h1>
     </header>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <!-- Month Selector Button -->
         <div class="dropdown">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="monthDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 @Model.SelectedMonth
@@ -47,8 +45,8 @@
         }
         </tbody>
     </table>
-    
-    
+
+
     <h2 class="text-center mb-4">@Model.SelectedMonth</h2>
 
     <div class="calendar-header">
@@ -81,12 +79,10 @@
                     var date = new DateTime(firstDay.Year, firstDay.Month, currentDay);
                     var hasEntry = Model.CalendarScores.TryGetValue(date, out var entry);
                     <div class="calendar-day">
-                        <!-- Flex container for day number and note button -->
                         <div class="calendar-top">
                             <strong>@currentDay</strong>
                             @if (hasEntry && !string.IsNullOrEmpty(entry.Note))
                             {
-                                <!-- Display the 📝 emoji icon as a button -->
                                 <button class="note-icon-btn" data-note="@entry.Note" data-bs-toggle="modal" data-bs-target="#noteModal">
                                     📝
                                 </button>
@@ -103,6 +99,15 @@
                                 </div>
                             </div>
                         }
+                        else if (Model.IsAdmin && date <= DateTime.Today)
+                        {
+                            <div class="calendar-entry text-center">
+                                <a href="/adminPanel?selectedDate=@date.ToString("yyyy-MM-dd")" class="btn btn-link text-secondary" 
+                                   style="font-size: 2rem; line-height: 40px; text-decoration: none; padding-top: 0;">
+                                    +
+                                </a>
+                            </div>
+                        }
                     </div>
                     currentDay++;
                 }
@@ -110,7 +115,6 @@
         }
     </div>
 
-    <!-- Winner and Loser of Last Month -->
     <div class="mt-4">
         <h5>Zwycięzcy miesiąca @Model.LastMonth:</h5>
         <ul>
@@ -131,28 +135,25 @@
 
 </div>
 
-<!-- Modal for displaying note -->
 <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="noteModalLabel">Note</h5>
+                <h5 class="modal-title" id="noteModalLabel">Notatka</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <!-- The note content will be injected here -->
                 <p id="noteContent"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Scripts for Modal functionality -->
 <script>
     // Event listener for showing the note content in the modal
     var noteButtons = document.querySelectorAll('.note-icon-btn');

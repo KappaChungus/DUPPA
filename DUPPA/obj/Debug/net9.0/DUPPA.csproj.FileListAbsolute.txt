@@ -124,3 +124,13 @@ C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.csproj.Up2Date
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\DUPPA.sourcelink.json
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\obj\Debug\net9.0\compressed\maejiy2coj-1dn2knjb93.gz
 C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\Npgsql.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\DnsClient.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\MongoDB.Bson.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\MongoDB.Driver.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\SharpCompress.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\Snappier.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\ZstdSharp.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\Database\defaultUserForDay.json
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\enviromentalVariables.json
+C:\Users\riftwalker\Desktop\DUPPA\DUPPA\bin\Debug\net9.0\client_secret_541227747705-cmgs3jijjl0muf3be4o1p2pf0ile7lp3.apps.googleusercontent.com.json

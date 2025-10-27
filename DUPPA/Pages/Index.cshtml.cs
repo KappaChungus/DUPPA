@@ -6,9 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DUPPA.Pages
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         public string SelectedMonth { get; set; }
@@ -18,11 +21,23 @@ namespace DUPPA.Pages
 
         public List<(string Name, double AverageScore)> Winners { get; set; }
         public List<(string Name, double AverageScore)> Losers { get; set; }
+        public bool IsAdmin {get; set;}
         
         public Dictionary<DateTime, (string UserName, int Score, string? Note)> CalendarScores { get; set; } = new();
 
         public void OnGet(string? month)
         {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            var adminIds = AppConfiguration.Configuration
+                .GetSection("Google:adminEmails")
+                .Get<List<string>>();
+            IsAdmin = adminIds?.Contains(userEmail) ?? false;
+            
+            // Now you can use the 'IsAdmin' property in your code or Razor page
+            if (IsAdmin)
+            {
+                Console.WriteLine("xd"); 
+            }
             Months = DateTimeFormatInfo.CurrentInfo!.MonthNames
                 .Where(m => !string.IsNullOrWhiteSpace(m))
                 .ToList();

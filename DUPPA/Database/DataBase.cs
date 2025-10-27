@@ -1,163 +1,135 @@
-﻿namespace DUPPA.Database
-{
-    using DUPPA.Models;
-    using Npgsql;
-    using System;
-    using System.Collections.Generic;
+﻿using DUPPA.Models;
+using MongoDB.Driver;
+using System.Text.Json;
 
+namespace DUPPA.Database
+{
     public class DataBase
     {
         private static DataBase? _instance;
+        private readonly string _connectionString = AppConfiguration.Configuration["MongoDb:MONGO_CONNECTION_STRING"]!;
+        private readonly string _dbName = AppConfiguration.Configuration["MongoDb:DB_NAME"]!;
 
-        private string ConnectionString = "Host=yamabiko.proxy.rlwy.net;Port=29336;Username=postgres;Password=rkqbGBDrZPduWErOfBoVjbLbGIaVYcjX;Database=railway;SSL Mode=Require;Trust Server Certificate=true";
+        public Dictionary<string, string>? DefaultUserForDay;
 
-        public Dictionary<string, string> _defaultUserForDay;
+        private readonly IMongoCollection<MongoUser> _users;
+        private readonly IMongoCollection<MongoScore> _scores;
+        private readonly IMongoCollection<Counter> _counters;
 
         private DataBase()
         {
+            var client = new MongoClient(_connectionString);
+            var database = client.GetDatabase(_dbName);
+            _users = database.GetCollection<MongoUser>("users");
+            _scores = database.GetCollection<MongoScore>("scores");
+            _counters = database.GetCollection<Counter>("counters");
+            
             SeedDefaultUsers();
         }
 
-        public static DataBase Instance
+        public static DataBase Instance => _instance ?? (_instance = new DataBase());
+
+        private int GetNextUserId()
         {
-            get
+            var filter = Builders<Counter>.Filter.Eq(c => c.Id, "user_id");
+            var update = Builders<Counter>.Update.Inc(c => c.SequenceValue, 1);
+            var options = new FindOneAndUpdateOptions<Counter>
             {
-                if (_instance == null)
-                    _instance = new DataBase();
-                return _instance;
+                ReturnDocument = ReturnDocument.After,
+                IsUpsert = true
+            };
+            var counter = _counters.FindOneAndUpdate(filter, update, options);
+            return counter.SequenceValue;
+        }
+
+        private void SeedDefaultUsers()
+        {
+            var indexOptions = new CreateIndexOptions { Unique = true };
+            var indexKeys = Builders<MongoUser>.IndexKeys.Ascending(u => u.Name);
+            var indexModel = new CreateIndexModel<MongoUser>(indexKeys, indexOptions);
+            _users.Indexes.CreateOne(indexModel);
+            
+            string json = File.ReadAllText("Database/defaultUserForDay.json");
+
+            DefaultUserForDay = JsonSerializer.Deserialize<Dictionary<string, string>>(json)!;
+
+            foreach (var kvp in DefaultUserForDay)
+            {
+                AddUser(kvp.Value);
             }
         }
 
-        public void SeedDefaultUsers()
+        private void AddUser(string name)
         {
-            var names = new[] { "Jan", "Jeremi", "Jerzy", "Ryszard" };
-            _defaultUserForDay = new Dictionary<string, string>();
-
-            foreach (var name in names)
+            var filter = Builders<MongoUser>.Filter.Eq(u => u.Name, name);
+            if (_users.Find(filter).Any())
             {
-                AddUser(name);
+                return;
             }
 
-            _defaultUserForDay.Add("Sunday", "Jerzy");
-            _defaultUserForDay.Add("Monday", "Jan");
-            _defaultUserForDay.Add("Tuesday", "Jeremi");
-            _defaultUserForDay.Add("Wednesday", "Ryszard");
-            _defaultUserForDay.Add("Thursday", "Jan");
-            _defaultUserForDay.Add("Friday", "Jeremi");
-            _defaultUserForDay.Add("Saturday", "Ryszard");
-        }
-
-        public void AddUser(string name)
-        {
-            using var connection = new NpgsqlConnection(ConnectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = "INSERT INTO users (name) VALUES (@name) ON CONFLICT (name) DO NOTHING;";
-            command.Parameters.AddWithValue("@name", name);
-            command.ExecuteNonQuery();
+            var newUser = new MongoUser
+            {
+                Id = GetNextUserId(),
+                Name = name
+            };
+            _users.InsertOne(newUser);
         }
 
         public List<User> GetUsers()
         {
+            var mongoUsers = _users.Find(_ => true).ToList();
             var users = new List<User>();
-            using var connection = new NpgsqlConnection(ConnectionString);
-            connection.Open();
 
-            var getUsersCommand = connection.CreateCommand();
-            getUsersCommand.CommandText = "SELECT id, name FROM users;";
-
-            using var reader = getUsersCommand.ExecuteReader();
-            while (reader.Read())
+            foreach (var mongoUser in mongoUsers)
             {
-                var id = reader.GetInt32(0);
-                var name = reader.GetString(1);
-                var scores = GetScoresByUserId(id);
-                users.Add(new User(id, name, scores));
+                var scores = GetScoresByUserId(mongoUser.Id);
+                
+                users.Add(new User(mongoUser.Id, mongoUser.Name, scores));
             }
             return users;
         }
 
         public void AddScoreForDay(string userName, int score, DateTime date, string? note)
         {
-            using var connection = new NpgsqlConnection(ConnectionString);
-            connection.Open();
+            var userFilter = Builders<MongoUser>.Filter.Eq(u => u.Name, userName);
+            var user = _users.Find(userFilter).FirstOrDefault();
 
-            var getUserIdCommand = connection.CreateCommand();
-            getUserIdCommand.CommandText = "SELECT id FROM users WHERE name = @name;";
-            getUserIdCommand.Parameters.AddWithValue("@name", userName);
-            var userId = getUserIdCommand.ExecuteScalar();
-
-            if (userId == null)
+            if (user == null)
                 return;
-
-            var insertCommand = connection.CreateCommand();
-            insertCommand.CommandText = @"
-                INSERT INTO scores (date, user_id, score, note)
-                VALUES (@date, @user_id, @score, @note)
-                ON CONFLICT (date) DO UPDATE
-                SET user_id = EXCLUDED.user_id,
-                    score = EXCLUDED.score,
-                    note = EXCLUDED.note;
-            ";
-
-            insertCommand.Parameters.AddWithValue("@date", date);
-            insertCommand.Parameters.AddWithValue("@user_id", (int)userId);
-            insertCommand.Parameters.AddWithValue("@score", score);
-            insertCommand.Parameters.AddWithValue("@note", note ?? (object)DBNull.Value);
-
-            insertCommand.ExecuteNonQuery();
+            var scoreDoc = new MongoScore
+            {
+                Date = date.Date,
+                UserId = user.Id,
+                Value = score,
+                Note = note
+            };
+            var scoreFilter = Builders<MongoScore>.Filter.Eq(s => s.Date, date.Date);
+            _scores.ReplaceOne(scoreFilter, scoreDoc, new ReplaceOptions { IsUpsert = true });
         }
 
         private List<Score> GetScoresByUserId(int userId)
         {
-            var scores = new List<Score>();
-
-            using var connection = new NpgsqlConnection(ConnectionString);
-            connection.Open();
-
-            var getScoresCommand = connection.CreateCommand();
-            getScoresCommand.CommandText = "SELECT score, date, note FROM scores WHERE user_id = @user_id;";
-            getScoresCommand.Parameters.AddWithValue("@user_id", userId);
-
-            using var reader = getScoresCommand.ExecuteReader();
-            while (reader.Read())
-            {
-                var value = reader.GetInt32(0);
-                var date = reader.GetDateTime(1);
-                string? note = reader.IsDBNull(2) ? null : reader.GetString(2);
-                scores.Add(new Score(value, date, note));
-            }
-
-            return scores;
+            var filter = Builders<MongoScore>.Filter.Eq(s => s.UserId, userId);
+            var mongoScores = _scores.Find(filter).ToList();
+            return mongoScores
+                .Select(s => new Score(s.Value, s.Date, s.Note))
+                .ToList();
         }
 
         public List<(DateTime CreatedAt, string UserName, int Value, string? Note)> GetAllScores()
         {
-            var scores = new List<(DateTime, string, int, string?)>();
+            var allScores = _scores.Find(_ => true).ToList();
+            var allUsers = _users.Find(_ => true).ToList().ToDictionary(u => u.Id, u => u.Name);
 
-            using var connection = new NpgsqlConnection(ConnectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = @"
-                SELECT s.date, u.name, s.score, s.note
-                FROM scores s
-                JOIN users u ON s.user_id = u.id;
-            ";
-
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
+            var result = new List<(DateTime, string, int, string?)>();
+            foreach (var s in allScores)
             {
-                var date = reader.GetDateTime(0);
-                var name = reader.GetString(1);
-                var score = reader.GetInt32(2);
-                var note = reader.IsDBNull(3) ? null : reader.GetString(3);
-
-                scores.Add((date, name, score, note));
+                if (allUsers.TryGetValue(s.UserId, out var userName))
+                {
+                    result.Add((s.Date, userName, s.Value, s.Note));
+                }
             }
-
-            return scores;
+            return result;
         }
     }
 }

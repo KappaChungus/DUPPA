@@ -13,7 +13,7 @@ namespace DUPPA.Pages
         public int SelectedImageId { get; set; }
 
         [BindProperty]
-        public DateTime SelectedDate { get; set; } = DateTime.Today.AddDays(-1);
+        public DateTime SelectedDate { get; set; } = DateTime.Today;
         
         [BindProperty]
         public string OptionalNote { get; set; }
@@ -23,15 +23,27 @@ namespace DUPPA.Pages
             DataBase.Instance.AddScoreForDay(SelectedOption, SelectedImageId, SelectedDate,OptionalNote);
         }
         
-        public void OnGet()
+        public void OnGet(string? selectedDate)
         {
-            HttpContext.Session.SetString("IsAdmin", "true");
-            SelectedOption = DataBase.Instance._defaultUserForDay[SelectedDate.DayOfWeek.ToString()];
+            // Try to parse the date from the URL (e.g., /adminPanel?selectedDate=2024-10-27)
+            if (DateTime.TryParse(selectedDate, out var date))
+            {
+                SelectedDate = date;
+                if (date > DateTime.Today)
+                {
+                    SelectedDate = DateTime.Today;
+                }
+            }
+            else
+            {
+                SelectedDate = DateTime.Today;
+            }
+            string dayName = SelectedDate.DayOfWeek.ToString();
+            SelectedOption = DataBase.Instance.DefaultUserForDay[dayName];
         }
 
         public IActionResult OnPost()
         {
-            HttpContext.Session.SetString("IsAdmin", "true");
             if (!string.IsNullOrEmpty(SelectedOption) && SelectedImageId != 0)
             {
                 SaveToDb();

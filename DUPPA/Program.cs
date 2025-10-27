@@ -18,6 +18,10 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // force secure cookies
+});
 // ----------------------
 // Authentication
 // ----------------------
@@ -40,7 +44,12 @@ builder.Services.AddAuthentication(options =>
 // ----------------------
 builder.Services.AddAuthorization();
 builder.Services.AddRazorPages();
-builder.Services.AddSession();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // important for HTTPS behind proxy
+});
 builder.Services.AddHttpContextAccessor();
 
 AppConfiguration.Configuration = builder.Configuration;
@@ -69,8 +78,11 @@ if (!app.Environment.IsDevelopment())
 // Forwarded headers (for Render proxy)
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    KnownNetworks = { }, // empty means trust all networks (okay for Render)
+    KnownProxies = { }   // empty means trust all proxies (okay for Render)
 });
+
 
 // Localization
 app.UseRequestLocalization();

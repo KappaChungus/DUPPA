@@ -1,0 +1,39 @@
+﻿# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Core
+*.db
+*.log
+*.vs/
+wwwroot/lib/
+
+# Environment & secrets
+client_secret_*.json
+enviromentalVariables.json
+appsettings.Development.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code
+.vscode/
+
+# Docker
+docker-compose.override.yml
+
+# Temporary clones
+DUPPA-clean/
+
+# Secrets
+*.json
+DUPPA/bin/
+DUPPA/obj/

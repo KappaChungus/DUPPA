@@ -1,0 +1,166 @@
+﻿@page
+@model DUPPA.Pages.IndexModel
+@using System.Globalization
+
+<div class="container mt-5">
+
+    <header class="text-center py-3 mb-4">
+        <h1>Dyżury Ustalane Przez Praktyczny Algorytm</h1>
+    </header>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="monthDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                @Model.SelectedMonth
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="monthDropdown">
+                @foreach (var month in Model.Months)
+                {
+                    <li>
+                        <form method="get" class="dropdown-item p-0">
+                            <input type="hidden" name="month" value="@month"/>
+                            <button type="submit" class="btn btn-link w-100 text-start">@month</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Dyżurny</th>
+            <th>współczynnik DUPPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model.UserStats)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.AverageScore.ToString("0.00")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+
+    <h2 class="text-center mb-4">@Model.SelectedMonth</h2>
+
+    <div class="calendar-header">
+        <div>Pon</div>
+        <div>Wto</div>
+        <div>Śro</div>
+        <div>Czw</div>
+        <div>Pią</div>
+        <div>Sob</div>
+        <div>Nie</div>
+    </div>
+
+    <div class="calendar">
+        @{
+            var firstDay = new DateTime(DateTime.Now.Year, DateTime.ParseExact(Model.SelectedMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1);
+            var daysInMonth = DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
+            var startDay = ((int)firstDay.DayOfWeek == 0) ? 7 : (int)firstDay.DayOfWeek;
+
+            int totalCells = 42;
+            int currentDay = 1;
+
+            for (int i = 1; i <= totalCells; i++)
+            {
+                if (i < startDay || currentDay > daysInMonth)
+                {
+                    <div class="calendar-day"></div>
+                }
+                else
+                {
+                    var date = new DateTime(firstDay.Year, firstDay.Month, currentDay);
+                    var hasEntry = Model.CalendarScores.TryGetValue(date, out var entry);
+                    <div class="calendar-day">
+                        <div class="calendar-top">
+                            <strong>@currentDay</strong>
+                            @if (hasEntry && !string.IsNullOrEmpty(entry.Note))
+                            {
+                                <button class="note-icon-btn" data-note="@entry.Note" data-bs-toggle="modal" data-bs-target="#noteModal">
+                                    📝
+                                </button>
+                            }
+                        </div>
+                        @if (hasEntry)
+                        {
+                            <div class="calendar-entry">
+                                <div class="calendar-entry text-center">
+                                    <div class="fw-bold">@entry.UserName</div>
+                                    <img src="@($"/images/score{entry.Score}.png")"
+                                         alt="@entry.Score pkt"
+                                         width="40" height="40"/>
+                                </div>
+                            </div>
+                        }
+                        else if (Model.IsAdmin && date <= DateTime.Today)
+                        {
+                            <div class="calendar-entry text-center">
+                                <a href="/adminPanel?selectedDate=@date.ToString("yyyy-MM-dd")" class="btn btn-link text-secondary" 
+                                   style="font-size: 2rem; line-height: 40px; text-decoration: none; padding-top: 0;">
+                                    +
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    currentDay++;
+                }
+            }
+        }
+    </div>
+
+    <div class="mt-4">
+        <h5>Zwycięzcy miesiąca @Model.LastMonth:</h5>
+        <ul>
+            @foreach (var winner in Model.Winners)
+            {
+                <li>@winner.Name (@winner.AverageScore.ToString("0.00"))</li>
+            }
+        </ul>
+
+        <h5>Przegrani miesiąca @Model.LastMonth:</h5>
+        <ul>
+            @foreach (var loser in Model.Losers)
+            {
+                <li>@loser.Name (@loser.AverageScore.ToString("0.00"))</li>
+            }
+        </ul>
+    </div>
+
+</div>
+
+<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noteModalLabel">Notatka</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="noteContent"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Event listener for showing the note content in the modal
+    var noteButtons = document.querySelectorAll('.note-icon-btn');
+    noteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var noteContent = this.getAttribute('data-note'); // Get the note content from the button
+            document.getElementById('noteContent').textContent = noteContent; // Set the note content to the modal
+        });
+    });
+</script>
